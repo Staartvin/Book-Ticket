@@ -344,7 +344,6 @@ public class BookStorageHandler {
 						//continue;
 
 					pagesEntries.add(sCurrentLine);
-					System.out.print(sCurrentLine);
 				} else if (sCurrentLine.contains("+Page")) {
 
 					String stringNumber = sCurrentLine.replace("+Page", "");

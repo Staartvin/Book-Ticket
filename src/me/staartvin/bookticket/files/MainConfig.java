@@ -152,6 +152,7 @@ public class MainConfig {
 			String dateString = getTimeAndDateAsString();
 			config.set("Tickets." + ticket + ".Time", dateString);
 		} else {
+			// To allow for quick removal
 			config.set("Tickets." + ticket + ".Time", null);
 		}
 		plugin.saveConfig();

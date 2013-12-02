@@ -1,0 +1,47 @@
+name: Book Ticket
+author: Staartvin
+main: me.staartvin.bookticket.BookTicket
+version: 1.3
+description: The best ticket plugin that works with books!
+permissions:
+    bookticket.close:
+        description: Allows a player to close tickets
+        default: op
+    bookticket.list:
+        description: Allows a player to view a list of tickets
+        default: op
+    bookticket.mylist:
+        description: Allows a player to see their own tickets
+        default: true
+    bookticket.new:
+        description: Allows a player to create new tickets
+        default: true
+    bookticket.open.self:
+        description: Allows a player to open their own tickets
+        default: true
+    bookticket.open.other:
+        description: Allows a player to open other tickets
+        default: op    
+    bookticket.reply.self:
+        description: Allows a player to reply to their own tickets
+        default: true
+    bookticket.reply.other:
+        description: Allows a player to reply to other tickets
+        default: op
+    bookticket.send:
+        description: Allows a player to send tickets
+        default: true
+    bookticket.tp:
+        description: Allows a player to tp to a ticket
+        default: op
+    bookticket.notice:
+        description: Players with this permission will get noticed when a new ticket has been opened.
+        default: op
+    bookticket.tp.back:
+        description: Allows a player to teleport back from their current location to their latest known one.
+        default: op
+commands:
+    support:
+      description: Global command of BookTicket
+      usage: /<command> <argument>
+      aliases: [bt, ticket]

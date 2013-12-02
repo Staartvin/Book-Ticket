@@ -37,15 +37,6 @@ public class MainConfig {
 		//config.addDefault("Messages.teleport message", "§6Commencing teleport!");
 
 		// General information
-		config.addDefault("Tickets.0.Author", "Staartvin");
-
-		config.addDefault("Tickets.0.Book", "Ticket 0");
-
-		config.addDefault("Tickets.0.Location", "1, 1, 1, world");
-
-		config.addDefault("Tickets.0.Time", getTimeAndDateAsString());
-		
-		config.addDefault("Tickets.0.SubTitle", "");
 		
 		config.addDefault("General.interval notice time", 5);
 		
@@ -58,12 +49,39 @@ public class MainConfig {
 		config.addDefault("MySQL.database", "bookticket");
 		config.addDefault("MySQL.table", "bookticket");
 		
+		// Ticket information later
+		config.addDefault("Tickets.0.Author", "Staartvin");
+
+		config.addDefault("Tickets.0.Book", "Ticket 0");
+
+		config.addDefault("Tickets.0.Location", "1, 1, 1, world");
+
+		config.addDefault("Tickets.0.Time", getTimeAndDateAsString());
+		
+		config.addDefault("Tickets.0.SubTitle", "");
+		
+		config.addDefault("Tickets.0.Status", "closed");
+		
 
 		config.options().copyDefaults(true);
 		plugin.saveConfig();
 	}
 	
 	public enum MySQLOption {HOSTNAME, USERNAME, PASSWORD, DATABASE, TABLE}
+	
+	public String getStatus(int ticket) {
+		return config.getString("Tickets." + ticket + ".Status");
+	}
+	
+	public void setStatus(String status, int ticket) {
+		config.set("Tickets." + ticket + ".Status", status);
+
+		plugin.saveConfig();
+	}
+	
+	public boolean isOpen(int ticket) {
+		return getStatus(ticket).equalsIgnoreCase("open");
+	}
 	
 	public String getMySQLOption(MySQLOption option) {
 		switch (option) {
@@ -86,7 +104,26 @@ public class MainConfig {
 		return config.getBoolean("MySQL.enabled");
 	}
 
-	public List<String> getTickets() {
+	public List<String> getOpenTickets() {
+		List<String> tickets = new ArrayList<String>();
+
+		for (String ticket : config.getConfigurationSection("Tickets").getKeys(
+				false)) {
+			// First ticket is an example ticket
+			if (ticket.equalsIgnoreCase("0"))
+				continue;
+			
+			// If ticket is closed, skip it.
+			if (!isOpen(Integer.parseInt(ticket))) 
+				continue;
+
+			tickets.add(ticket);
+		}
+
+		return tickets;
+	}
+	
+	public List<String> getAllTickets() {
 		List<String> tickets = new ArrayList<String>();
 
 		for (String ticket : config.getConfigurationSection("Tickets").getKeys(
@@ -125,6 +162,9 @@ public class MainConfig {
 		
 		// Set subTitle
 		setSubTitle(subTitle, lastTicket);
+		
+		// Set status open
+		setStatus("open", lastTicket);
 
 		return lastTicket;
 	}
@@ -144,7 +184,6 @@ public class MainConfig {
 
 	public void setBookName(String bookName, int ticket) {
 		config.set("Tickets." + ticket + ".Book", bookName);
-		plugin.saveConfig();
 	}
 
 	public void setTime(Date date, int ticket) {
@@ -206,7 +245,7 @@ public class MainConfig {
 	 * @return most recent ticket
 	 */
 	public int getLastTicketCount() {
-		List<String> tickets = getTickets();
+		List<String> tickets = getAllTickets();
 
 		if (tickets.size() == 0)
 			return -1;
@@ -263,6 +302,11 @@ public class MainConfig {
 			// First ticket is an example ticket
 			if (ticket.equalsIgnoreCase("0"))
 				continue;
+			
+			// Closed tickets
+			if (!isOpen(Integer.parseInt(ticket))) 
+				continue;
+			
 			if (getAuthor(Integer.parseInt(ticket)).equalsIgnoreCase(author)) {
 				tickets.add(ticket);
 			}
@@ -293,24 +337,27 @@ public class MainConfig {
 				Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z));
 	}
 
-	public boolean deleteTicket(int ticket) {
+	public boolean closeTicket(int ticket) {
 		if (!doesTicketExist(ticket))
 			return false;
 
 		// Set author
-		setAuthor(null, ticket);
+		//setAuthor(null, ticket);
 
 		// Set book
-		setBookName(null, ticket);
+		//setBookName(null, ticket);
 
 		// Set location
-		setLocation(null, ticket);
+		//setLocation(null, ticket);
 
 		// Set time
-		setTime(null, ticket);
+		//setTime(null, ticket);
 		
 		// Remove last thing
-		config.set("Tickets." + ticket, null);
+		//config.set("Tickets." + ticket, null);
+		
+		// Set status to closed
+		setStatus("closed", ticket);
 		
 		plugin.saveConfig();
 		return true;

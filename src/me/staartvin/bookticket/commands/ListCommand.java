@@ -27,7 +27,7 @@ public class ListCommand {
 				return true;
 			}
 
-			List<String> tickets = plugin.getMainConfig().getTickets();
+			List<String> tickets = plugin.getMainConfig().getOpenTickets();
 
 			sender.sendMessage(ChatColor.GOLD + "----------------------------");
 			

@@ -21,10 +21,16 @@ public class NoticeTask implements Runnable {
 		
 		for (Player player: plugin.getServer().getOnlinePlayers()) {
 			if (player.hasPermission("bookticket.notice")) {
-				List<String> tickets = plugin.getMainConfig().getTickets();
+				List<String> tickets = plugin.getMainConfig().getOpenTickets();
 				
 				if (tickets.size() == 0) return;
-				player.sendMessage(ChatColor.AQUA + "There are " + ChatColor.GOLD + tickets.size() + ChatColor.AQUA + " open tickets!");
+				
+				if (tickets.size() != 1) {
+					player.sendMessage(ChatColor.AQUA + "There are " + ChatColor.GOLD + tickets.size() + ChatColor.AQUA + " open tickets!");	
+				} else {
+					player.sendMessage(ChatColor.AQUA + "There is " + ChatColor.GOLD + tickets.size() + ChatColor.AQUA + " open ticket!");
+				}
+				
 			}
 		}
 		

@@ -85,7 +85,7 @@ public class SendCommand {
 					arguments.add(argument);
 				}
 				
-				subTitle = plugin.getBookHandler().convertToString(arguments);
+				subTitle = plugin.getBookHandler().convertToStringForArguments(arguments);
 			}
 			
 

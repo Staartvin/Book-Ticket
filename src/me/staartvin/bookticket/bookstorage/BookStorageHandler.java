@@ -354,7 +354,7 @@ public class BookStorageHandler {
 						pageNumber = 0;
 					} else {
 
-						pages.add(convertToString(pagesEntries));
+						pages.add(convertToStringForBooks(pagesEntries));
 						//pages.put(pageNumber, pagesEntries);
 
 						emptyList = true;
@@ -364,7 +364,7 @@ public class BookStorageHandler {
 					}
 				}
 			}
-			pages.add(convertToString(pagesEntries));
+			pages.add(convertToStringForBooks(pagesEntries));
 
 			saveNow = false;
 		} catch (IOException e) {
@@ -393,7 +393,7 @@ public class BookStorageHandler {
 		return title;
 	}
 
-	public String convertToString(List<String> strings) {
+	public String convertToStringForBooks(List<String> strings) {
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < strings.size(); i++) {
@@ -403,6 +403,22 @@ public class BookStorageHandler {
 				builder.append(string);
 			} else {
 				builder.append(string + "\n");
+			}
+		}
+
+		return builder.toString().trim();
+	}
+	
+	public String convertToStringForArguments(List<String> strings) {
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0; i < strings.size(); i++) {
+			String string = strings.get(i);
+
+			if (i == (strings.size() - 1)) {
+				builder.append(string);
+			} else {
+				builder.append(string + " ");
 			}
 		}
 

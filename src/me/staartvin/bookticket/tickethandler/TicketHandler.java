@@ -1,7 +1,5 @@
 package me.staartvin.bookticket.tickethandler;
 
-import java.io.File;
-
 import me.staartvin.bookticket.BookTicket;
 
 import org.bukkit.ChatColor;
@@ -63,14 +61,15 @@ public class TicketHandler {
 	}
 	
 	public boolean closeTicket(int ticket) {
-		File bookFile = new File(plugin.getDataFolder() + "/books", plugin.getMainConfig().getBookName(ticket) + ".txt");
-		boolean deleted = plugin.getMainConfig().deleteTicket(ticket);
+		//File bookFile = new File(plugin.getDataFolder() + "/books", plugin.getMainConfig().getBookName(ticket) + ".txt");
+		boolean deleted = plugin.getMainConfig().closeTicket(ticket);
 		
-		try {
+		/*try {
 			bookFile.delete();
 			return deleted;
 		} catch (Exception e) {
 			return false;
-		}
+		} */
+		return deleted;
 	}
 }

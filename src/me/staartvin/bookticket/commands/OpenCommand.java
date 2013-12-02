@@ -73,8 +73,13 @@ public class OpenCommand {
 			
 			player.sendMessage(ChatColor.GOLD + "----------------------------");
 			player.sendMessage(ChatColor.AQUA + "This ticket was created on: " + ChatColor.GOLD + plugin.getMainConfig().getTime(ticket));
-			player.sendMessage(ChatColor.AQUA + "You can do " + ChatColor.GOLD + "/ticket tp " + ticket + ChatColor.AQUA + " to get to the location.");
-			player.sendMessage(ChatColor.AQUA + "To reply, edit the book and do " + ChatColor.GOLD + "/ticket reply");
+			
+			if (plugin.getMainConfig().isOpen(ticket)) {
+				player.sendMessage(ChatColor.AQUA + "You can do " + ChatColor.GOLD + "/ticket tp " + ticket + ChatColor.AQUA + " to get to the location.");
+				player.sendMessage(ChatColor.AQUA + "To reply, edit the book and do " + ChatColor.GOLD + "/ticket reply");	
+			} else {
+				player.sendMessage(ChatColor.AQUA + "This ticket is " + ChatColor.RED + "closed" + ChatColor.AQUA + ". You do not have to reply anymore.");
+			}
 		}
 		
 		return true;

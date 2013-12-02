@@ -177,6 +177,7 @@ public class MainConfig {
 	}
 
 	public String getTimeAndDateAsString() {
+		// In ISO 8601 format
 		Calendar cal = Calendar.getInstance();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy/MM/dd");
 		
@@ -191,6 +192,7 @@ public class MainConfig {
 	}
 	
 	public String getDateAsString() {
+		// In ISO 8601 format
 		Calendar cal = Calendar.getInstance();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		

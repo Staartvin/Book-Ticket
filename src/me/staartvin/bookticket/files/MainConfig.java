@@ -27,7 +27,10 @@ public class MainConfig {
 
 		config.options().header(
 				"Book Ticket v" + plugin.getDescription().getVersion()
-						+ " Config" + "\n\nTickets is a list of open tickets.");
+						+ " Config" + "\n\nTickets is a list of created tickets."
+								+ "\n\nThe 'interval notice time' is the amount of minutes that the 'there are x open tickets' message gets repeated."
+								+ "\nIf 'add first info page' is true, when a ticket is opened, the first page of the book will show general info about"
+								+ "\nthe player that created the ticket.");
 
 		// Messages
 		//config.addDefault("Messages.",

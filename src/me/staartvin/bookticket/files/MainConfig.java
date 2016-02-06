@@ -283,6 +283,8 @@ public class MainConfig {
 	 */
 	public int getTicketIdByTitle(String author, String title) {
 
+		if (title == null) return -1;
+		
 		// Title = "Ticket # of 'player"
 		title = title.replace("Ticket ", "").replace("of " + author, "");
 

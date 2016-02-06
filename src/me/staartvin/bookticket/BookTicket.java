@@ -1,14 +1,15 @@
 package me.staartvin.bookticket;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import me.staartvin.bookticket.bookstorage.BookStorageHandler;
 import me.staartvin.bookticket.commands.CommandHandler;
 import me.staartvin.bookticket.files.MainConfig;
+import me.staartvin.bookticket.listeners.PlayerEditBookListener;
 import me.staartvin.bookticket.locationstorage.LocationStorage;
 import me.staartvin.bookticket.mysql.MySQLHandler;
 import me.staartvin.bookticket.tasks.NoticeTask;
 import me.staartvin.bookticket.tickethandler.TicketHandler;
-
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class BookTicket extends JavaPlugin {
 
@@ -37,6 +38,9 @@ public class BookTicket extends JavaPlugin {
 		getServer().getScheduler().runTaskTimer(this, new NoticeTask(this),
 				100L, config.getIntervalNoticeTime() * 1200);
 
+		// Load edit book listener
+		this.getServer().getPluginManager().registerEvents(new PlayerEditBookListener(this), this);
+		
 		getLogger().info(
 				"Book Ticket v" + getDescription().getVersion()
 						+ " has been enabled!");

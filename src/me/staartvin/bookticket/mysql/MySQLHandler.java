@@ -7,6 +7,7 @@ import java.util.List;
 import me.staartvin.bookticket.BookTicket;
 import me.staartvin.bookticket.files.MainConfig.MySQLOption;
 
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -40,9 +41,9 @@ public class MySQLHandler {
 		mysql = new MySQL(host, user, password, database);
 
 		if (mysql.connect()) {
-			plugin.debugMessage(ChatColor.RED + "MySQL database connected!");
+			System.out.println(ChatColor.RED + "MySQL database connected!");
 		} else {
-			plugin.debugMessage(ChatColor.RED + "Could not connect to MySQL database!");
+			System.out.println(ChatColor.RED + "Could not connect to MySQL database!");
 		}
 	}
 

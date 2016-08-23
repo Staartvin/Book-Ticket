@@ -40,9 +40,9 @@ public class MySQLHandler {
 		mysql = new MySQL(host, user, password, database);
 
 		if (mysql.connect()) {
-			plugin.getLogger().info("MySQL database connected!");
+			plugin.debugMessage(ChatColor.RED + "MySQL database connected!");
 		} else {
-			plugin.getLogger().info("Could not connect to MySQL database!");
+			plugin.debugMessage(ChatColor.RED + "Could not connect to MySQL database!");
 		}
 	}
 

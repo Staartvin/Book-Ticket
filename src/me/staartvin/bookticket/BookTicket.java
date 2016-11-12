@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.staartvin.bookticket.bookstorage.BookStorageHandler;
 import me.staartvin.bookticket.commands.CommandHandler;
 import me.staartvin.bookticket.files.MainConfig;
+import me.staartvin.bookticket.listeners.PlayerDropItemListener;
 import me.staartvin.bookticket.listeners.PlayerEditBookListener;
 import me.staartvin.bookticket.locationstorage.LocationStorage;
 import me.staartvin.bookticket.mysql.MySQLHandler;
@@ -40,6 +41,7 @@ public class BookTicket extends JavaPlugin {
 
 		// Load edit book listener
 		this.getServer().getPluginManager().registerEvents(new PlayerEditBookListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerDropItemListener(this), this);
 		
 		getLogger().info(
 				"Book Ticket v" + getDescription().getVersion()

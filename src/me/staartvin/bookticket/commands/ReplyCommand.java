@@ -65,6 +65,7 @@ public class ReplyCommand implements CommandExecutor {
 						+ "This book is not a valid ticket.");
 				return true;
 			}
+			
 			String title = plugin.getBookHandler().getTitleOfBook(
 					player.getItemInHand());
 			

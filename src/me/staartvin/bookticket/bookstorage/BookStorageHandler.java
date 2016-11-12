@@ -35,6 +35,9 @@ public class BookStorageHandler {
 
 	// Stores who did /ticket new. When a player does /ticket send, the newTicket is true again
 	private HashMap<String, Boolean> newTicket = new HashMap<String, Boolean>();
+	
+	// Store when a player has last sent a ticket, so it cannot spam the ticket system.
+	private HashMap<String, Long> lastSentTicket = new HashMap<>();
 
 	public boolean isNewTicket(String playerName) {
 		if (!newTicket.containsKey(playerName)
@@ -47,6 +50,23 @@ public class BookStorageHandler {
 
 	public void setNewTicket(String playerName, boolean bln) {
 		newTicket.put(playerName, bln);
+	}
+	
+	public void setLastSentTicket(String playerName) {
+		this.lastSentTicket.put(playerName, System.currentTimeMillis());
+	}
+	
+	/**
+	 * Get how many minutes ago a ticket was sent by the user
+	 * @param playerName Name of the player
+	 * @return how many minutes ago a ticket was submitted or -1 if none was submitted since the restarting of the server.
+	 */
+	public long getLastSentTicket(String playerName) {
+		Long time = this.lastSentTicket.get(playerName);
+		
+		if (time == null) return -1;
+		
+		return (System.currentTimeMillis() - time) / 60000;
 	}
 
 	/**

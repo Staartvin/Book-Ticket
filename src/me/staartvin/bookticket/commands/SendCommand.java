@@ -22,54 +22,56 @@ public class SendCommand implements CommandExecutor {
 		plugin = instance;
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (args[0].equalsIgnoreCase("send")) {
 
 			if (!sender.hasPermission("bookticket.send")) {
-				sender.sendMessage(ChatColor.RED
-						+ "You are not allowed to send books!");
+				sender.sendMessage(ChatColor.RED + "You are not allowed to send books!");
 				return true;
 			}
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED
-						+ "Only players can send books.");
+				sender.sendMessage(ChatColor.RED + "Only players can send books.");
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			// It is a written book
-			if (player.getItemInHand() != null
-					&& player.getItemInHand().getType()
-							.equals(Material.WRITTEN_BOOK)) {
-				
-				
+			if (player.getItemInHand() != null && player.getItemInHand().getType().equals(Material.WRITTEN_BOOK)) {
+
 				// Change it to a not-written book
-				
+
 				BookMeta bMeta = (BookMeta) player.getItemInHand().getItemMeta();
 				ItemStack newItem = new ItemStack(Material.BOOK_AND_QUILL, player.getItemInHand().getAmount());
-				
+
 				newItem.setItemMeta(bMeta);
 				player.setItemInHand(newItem);
-				
+
 				/*player.sendMessage(ChatColor.RED
 						+ "You do not need to sign the book!");
 				return true;*/
 			}
 
-			if (player.getItemInHand() == null
-					|| !player.getItemInHand().getType()
-							.equals(Material.BOOK_AND_QUILL)) {
-				player.sendMessage(ChatColor.RED
-						+ "You are not holding a book in your hand!");
+			if (player.getItemInHand() == null || !player.getItemInHand().getType().equals(Material.BOOK_AND_QUILL)) {
+				player.sendMessage(ChatColor.RED + "You are not holding a book in your hand!");
 				return true;
 			}
 
-			String title = plugin.getBookHandler().saveBook(player,
-					player.getItemInHand());
+			long minutesAgo = plugin.getBookHandler().getLastSentTicket(sender.getName());
+
+			// Check when the last time a player has sent a ticket
+			if (minutesAgo < plugin.getMainConfig().getCooldownPeriod() && minutesAgo >= 0) {
+				sender.sendMessage(
+						ChatColor.RED + "You cannot submit a ticket at this time. You have to wait " + ChatColor.GOLD
+								+ (plugin.getMainConfig().getCooldownPeriod()
+										- plugin.getBookHandler().getLastSentTicket(sender.getName()))
+								+ ChatColor.RED + " more minutes before you can submit a new one.");
+				return true;
+			}
+
+			String title = plugin.getBookHandler().saveBook(player, player.getItemInHand());
 			String subTitle = "";
 
 			if (args.length != 1) {
@@ -85,21 +87,20 @@ public class SendCommand implements CommandExecutor {
 
 					arguments.add(argument);
 				}
-				
+
 				subTitle = plugin.getBookHandler().convertToStringForArguments(arguments);
 			}
-			
 
 			if (title != null) {
-					plugin.getTicketHandler()
-							.createNewTicket(player, title, subTitle);
-					
-					plugin.getBookHandler().setNewTicket(player.getName(), true);
+				plugin.getTicketHandler().createNewTicket(player, title, subTitle);
+
+				plugin.getBookHandler().setNewTicket(player.getName(), true);
+				
+				plugin.getBookHandler().setLastSentTicket(player.getName());
 
 				return true;
 			} else {
-				player.sendMessage(ChatColor.RED
-						+ "Something went wrong with your book! Try again.");
+				player.sendMessage(ChatColor.RED + "Something went wrong with your book! Try again.");
 				return true;
 			}
 

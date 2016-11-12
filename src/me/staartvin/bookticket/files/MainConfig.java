@@ -32,7 +32,8 @@ public class MainConfig {
 								+ "\nIf 'add first info page' is true, when a ticket is opened, the first page of the book will show general info about"
 								+ "\nthe player that created the ticket."
 								+ "\nThe 'allow closing own tickets' option can be set to true or false. When you want players to be able to close their own tickets,"
-								+ "\nset this to true. If you only want your moderators to close any tickets, set this to false.");
+								+ "\nset this to true. If you only want your moderators to close any tickets, set this to false."
+								+ "\nThe 'cooldown period submitting tickets' is the time in minutes that a player has to wait before sending a new ticket.");
 
 		// Messages
 		//config.addDefault("Messages.",
@@ -48,6 +49,8 @@ public class MainConfig {
 		config.addDefault("General.Add first info page", true);
 		
 		config.addDefault("General.allow closing own tickets", true);
+		
+		config.addDefault("General.cooldown period submitting tickets", 5);
 		
 		config.addDefault("MySQL.enabled", false);
 		config.addDefault("MySQL.hostname", "localhost:3306");
@@ -391,5 +394,9 @@ public class MainConfig {
 	
 	public boolean allowClosingOwnTickets() {
 		return config.getBoolean("General.allow closing own tickets", true);
+	}
+	
+	public int getCooldownPeriod() {
+		return config.getInt("General.cooldown period submitting tickets", 5);
 	}
 }

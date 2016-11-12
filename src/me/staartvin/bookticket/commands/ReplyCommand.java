@@ -5,10 +5,11 @@ import me.staartvin.bookticket.BookTicket;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReplyCommand {
+public class ReplyCommand implements CommandExecutor {
 
 	private BookTicket plugin;
 

@@ -4,9 +4,10 @@ import me.staartvin.bookticket.BookTicket;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CloseCommand {
+public class CloseCommand implements CommandExecutor {
 
 	private BookTicket plugin;
 
@@ -18,12 +19,6 @@ public class CloseCommand {
 			String[] args) {
 
 		if (args[0].equalsIgnoreCase("close")) {
-
-			if (!sender.hasPermission("bookticket.close")) {
-				sender.sendMessage(ChatColor.RED
-						+ "You are not allowed to close tickets!");
-				return true;
-			}
 
 			if (args.length != 2) {
 				sender.sendMessage(ChatColor.RED + "Invalid command usage!");
@@ -45,13 +40,34 @@ public class CloseCommand {
 			if (!plugin.getTicketHandler().validateTicket(ticket, sender)) return true;
 
 			String author = plugin.getMainConfig().getAuthor(ticket);
+			
+			// If players are not allowed to close their own tickets, check their permissions first.
+			if (!plugin.getMainConfig().allowClosingOwnTickets()) {
+				if (!sender.hasPermission("bookticket.close")) {
+					sender.sendMessage(ChatColor.RED
+							+ "You are not allowed to close tickets!");
+					return true;
+				}
+			} else {
+				// Check if sender is also author - hence closing its own book
+				
+				// If sender is NOT closing its own book, check for permission
+				if (!sender.getName().equalsIgnoreCase(author)) {
+					if (!sender.hasPermission("bookticket.close")) {
+						sender.sendMessage(ChatColor.RED
+								+ "You are not allowed to close tickets!");
+						return true;
+					}
+				} // Else, sender is closing its own book (which is allowed).
+			}
 
 			if (plugin.getTicketHandler().closeTicket(ticket)) {
 				sender.sendMessage(ChatColor.AQUA + "Ticket #" + ChatColor.GOLD
 						+ ticket + ChatColor.AQUA + " of " + ChatColor.GOLD
 						+ author + ChatColor.AQUA + " has been closed!");
 
-				if (plugin.getServer().getPlayer(author) != null) {
+				// Check if the author of the ticket is online and he did not close it himself.
+				if (plugin.getServer().getPlayer(author) != null && !sender.getName().equalsIgnoreCase(author)) {
 					plugin.getServer()
 							.getPlayer(author)
 							.sendMessage(

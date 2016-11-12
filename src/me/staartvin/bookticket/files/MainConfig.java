@@ -30,7 +30,9 @@ public class MainConfig {
 						+ " Config" + "\n\nTickets is a list of created tickets."
 								+ "\n\nThe 'interval notice time' is the amount of minutes that the 'there are x open tickets' message gets repeated."
 								+ "\nIf 'add first info page' is true, when a ticket is opened, the first page of the book will show general info about"
-								+ "\nthe player that created the ticket.");
+								+ "\nthe player that created the ticket."
+								+ "\nThe 'allow closing own tickets' option can be set to true or false. When you want players to be able to close their own tickets,"
+								+ "\nset this to true. If you only want your moderators to close any tickets, set this to false.");
 
 		// Messages
 		//config.addDefault("Messages.",
@@ -44,6 +46,8 @@ public class MainConfig {
 		config.addDefault("General.interval notice time", 5);
 		
 		config.addDefault("General.Add first info page", true);
+		
+		config.addDefault("General.allow closing own tickets", true);
 		
 		config.addDefault("MySQL.enabled", false);
 		config.addDefault("MySQL.hostname", "localhost:3306");
@@ -383,5 +387,9 @@ public class MainConfig {
 	
 	public boolean doAddFirstInfoPage() {
 		return config.getBoolean("General.Add first info page", true);
+	}
+	
+	public boolean allowClosingOwnTickets() {
+		return config.getBoolean("General.allow closing own tickets", true);
 	}
 }
